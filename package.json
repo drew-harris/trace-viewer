@@ -4,9 +4,15 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/unzipper": "^0.10.11"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "neverthrow": "^8.2.0",
+    "unzipper": "^0.12.3",
+    "zod": "^3.25.64"
   }
 }
