@@ -1,12 +1,11 @@
 import { parseArgs } from "util";
 import indexHtml from "../public/index.html";
-import { parseZipPath, unzipFile } from "./files";
+import { unzipFile } from "./files";
 import { mustAsync } from "./errors";
-import { MomenticTestSchema } from "./schemas";
 import { serve } from "bun";
 import { api } from "./api";
 import open from "open";
-import { unzip, type CentralDirectory } from "unzipper";
+import { type CentralDirectory } from "unzipper";
 
 declare module "hono" {
   interface ContextVariableMap {
@@ -14,8 +13,15 @@ declare module "hono" {
   }
 }
 
-const { positionals } = parseArgs({
+const { positionals, values } = parseArgs({
   allowPositionals: true,
+  options: {
+    noOpen: {
+      type: "boolean",
+      short: "n",
+      default: false,
+    },
+  },
 });
 
 if (!positionals[0]) {
@@ -25,12 +31,6 @@ if (!positionals[0]) {
 
 const file = positionals[0];
 const unzipped = await mustAsync(unzipFile(file));
-
-const testRun = await parseZipPath(
-  unzipped,
-  "metadata.json",
-  MomenticTestSchema,
-);
 
 serve({
   websocket: {
@@ -54,4 +54,6 @@ serve({
 });
 
 // Open the browser after server starts
-await open("http://localhost:3000");
+if (!values.noOpen) {
+  await open("http://localhost:3000");
+}
