@@ -28,7 +28,7 @@ export const App = () => {
   return (
     <div className="h-screen">
       <RunGroupStatusBar runGroup={data} />
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-[1fr_2fr]">
         <div>
           {results.map((r) => (
             <ActionListItem

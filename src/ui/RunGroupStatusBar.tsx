@@ -1,4 +1,4 @@
-import type { MomenticTest } from "../schemas";
+import type { MomenticTest } from "@/schemas/testGroup";
 
 export const RunGroupStatusBar = ({ runGroup }: { runGroup: MomenticTest }) => {
   return (

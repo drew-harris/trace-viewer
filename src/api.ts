@@ -43,4 +43,23 @@ export const api = (directory: CentralDirectory) =>
 
       return c.html(textContent);
     })
+    .get("/image/:id/:step/:filename", async (c) => {
+      console.log("image route");
+      const directory = c.get("directory");
+      const id = c.req.param("id");
+      const step = c.req.param("step");
+      const filename = c.req.param("filename");
+      console.log(id, step, filename);
+      const file = directory.files.find(
+        (f) => f.path === `attempts/${id}/steps/${step}/${filename}`,
+      );
+      if (!file) {
+        c.status(404);
+        return c.json({ error: "File not found" }, 500);
+      }
+
+      const buffer = await file.buffer();
+      c.header("Content-Type", "image/jpeg");
+      return c.body(buffer);
+    })
     .route("/runGroup", runGroupRoutes);
