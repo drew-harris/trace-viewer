@@ -21,16 +21,12 @@ export const parseZipPath = <Z extends ZodSchema>(
   if (!file) {
     return errAsync(new Error("Couldn't find file"));
   }
-  console.log(file);
   const result = fromPromise(
     file.buffer(),
     (e) => new Error("Couldn't find file and get buffer"),
   )
     // TODO: Fix error
     .map((buffer) => JSON.parse(buffer.toString()))
-    .andTee((parsed) => {
-      console.log(parsed);
-    })
     .andThen((parsed) =>
       fromPromise(
         schema.parseAsync(parsed),

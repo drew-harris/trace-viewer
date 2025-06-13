@@ -65,3 +65,5 @@ export const attemptSchema = z.object({
 });
 
 export type Attempt = z.infer<typeof attemptSchema>;
+
+export type Action = z.infer<typeof presetActionResultSchema>;

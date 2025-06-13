@@ -23,7 +23,24 @@ export const api = (directory: CentralDirectory) =>
     })
     .get("/test", async (c) => {
       const directory = c.get("directory");
-      console.log("Directory:", directory);
       return c.json({ hello: "world" });
+    })
+    .get("/snapshot/:id/:step/:filename", async (c) => {
+      const directory = c.get("directory");
+      const id = c.req.param("id");
+      const step = c.req.param("step");
+      const filename = c.req.param("filename");
+      console.log(id, step, filename);
+      const file = directory.files.find(
+        (f) => f.path === `attempts/${id}/steps/${step}/${filename}`,
+      );
+      if (!file) {
+        c.status(404);
+        return c.json({ error: "File not found" }, 500);
+      }
+
+      const textContent = (await file.buffer("text")).toString();
+
+      return c.html(textContent);
     })
     .route("/runGroup", runGroupRoutes);

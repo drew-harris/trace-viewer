@@ -1,6 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { client } from "./fetch";
 import { RunGroupStatusBar } from "./ui/RunGroupStatusBar";
+import { useState } from "react";
+import type { Action } from "./schemas/attempts";
+import { SpecificActionView } from "./ui/SpecificActionResult";
+import { ActionListItem } from "./ui/ActionListItem";
 
 export const App = () => {
   const { data } = useSuspenseQuery({
@@ -17,12 +21,33 @@ export const App = () => {
         .then((s) => s.results),
   });
 
+  const [selectedAction, setSelectedAction] = useState<string | null>(
+    results?.at(0)?.id || null,
+  );
+
   return (
     <div className="h-screen">
       <RunGroupStatusBar runGroup={data} />
-      {results.map((r) => (
-        <div key={r.id}>{r.message}</div>
-      ))}
+      <div className="grid grid-cols-2">
+        <div>
+          {results.map((r) => (
+            <ActionListItem
+              action={r}
+              select={() => setSelectedAction(r.id)}
+              isSelected={selectedAction === r.id}
+            />
+          ))}
+        </div>
+        <div>
+          {selectedAction ? (
+            <SpecificActionView
+              action={results.find((r) => r.id === selectedAction)!}
+            />
+          ) : (
+            <div>Select an action</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
