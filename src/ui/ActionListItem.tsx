@@ -21,12 +21,67 @@ export const ActionListItem = ({
         !isSelected && "bg-neutral-800 text-neutral-200",
       )}
     >
-      <div className="flex items-center gap-2">
-        <div className="font-bold">
+      <div className="flex items-center gap-2 w-full">
+        <div className="font-bold flex-shrink-0">
           <CommandTypeIcon type={command.type} />
         </div>
-        {command.target?.type && <div>{command.target?.type}</div>}
-        <div>{command.value || action.command.assertion}</div>
+        <div className="flex text-left flex-col items-start w-full">
+          <div className="flex items-baseline gap-2 w-full">
+            {command.type === "TYPE" && (
+              <>
+                <span className="text-neutral-100 text-sm">Type:</span>
+                <span className="font-mono text-neutral-100">
+                  {command.value}
+                </span>
+                {command.clearContent && (
+                  <span className="text-xs text-neutral-400">(clear)</span>
+                )}
+                {command.pressEnter && (
+                  <span className="text-xs text-neutral-400">(enter)</span>
+                )}
+              </>
+            )}
+            {command.type === "PRESS" && (
+              <>
+                <span className="text-sm text-neutral-100">Press:</span>
+                <span className="font-mono text-neutral-100">
+                  {command.value}
+                </span>
+              </>
+            )}
+            {command.type === "CLICK" && (
+              <>
+                <span className="text-sm text-neutral-100">Click</span>
+                <span className="text-neutral-100 "></span>
+              </>
+            )}
+            {command.type === "AI_ASSERTION" && (
+              <>
+                <span className="text-sm text-neutral-100">Assert:</span>
+                <span className="text-xs text-neutral-400 mb-1 block">
+                  <span className="font-normal">{command.assertion}</span>
+                </span>
+              </>
+            )}
+            {command.type === "JAVASCRIPT" && (
+              <>
+                <span className="text-sm text-neutral-100">JS:</span>
+                <span className="font-mono text-xs text-neutral-100 break-words">
+                  {command.code}
+                </span>
+              </>
+            )}
+          </div>
+          {command.target?.elementDescriptor &&
+            command.type !== "CLICK" &&
+            command.type !== "AI_ASSERTION" && (
+              <span className="text-xs text-neutral-400 mb-1 block">
+                <span className="font-normal">
+                  Target: {command.target.elementDescriptor}
+                </span>
+              </span>
+            )}
+        </div>
       </div>
       <div>
         <CommandStatus status={action.status} />
