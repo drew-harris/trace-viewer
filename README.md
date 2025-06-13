@@ -1,15 +1,17 @@
 # trace-viewer
+Drew Harris
 
-To install dependencies:
+Requirements: 
+ - Bun
 
-```bash
-bun install
-```
+Setup: 
+`bun install`
 
-To run:
+Running:
+`bun run src/index.ts simple-todo-test.zip`
 
-```bash
-bun run index.ts
-```
+`bun run src/index.ts failing-test.zip`
 
-This project was created using `bun init` in bun v1.2.13. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+`bun run src/index.ts module.zip`
+
+`bun run src/index.ts long-test.zip`

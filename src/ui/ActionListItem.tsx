@@ -33,12 +33,6 @@ export const ActionListItem = ({
                 <span className="font-mono text-neutral-100">
                   {command.value}
                 </span>
-                {command.clearContent && (
-                  <span className="text-xs text-neutral-400">(clear)</span>
-                )}
-                {command.pressEnter && (
-                  <span className="text-xs text-neutral-400">(enter)</span>
-                )}
               </>
             )}
             {command.type === "PRESS" && (

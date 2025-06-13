@@ -1,5 +1,5 @@
 import { cn } from "../lib/utils";
-import type { Action, Module } from "../schemas/attempts";
+import type { Module } from "../schemas/attempts";
 import { ActionListItem } from "./ActionListItem";
 
 export const ModuleListItem = ({

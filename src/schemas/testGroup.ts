@@ -1,13 +1,5 @@
 import { z } from "zod";
 
-const CommandTypeSchema = z.enum([
-  "TYPE",
-  "PRESS",
-  "CLICK",
-  "AI_ASSERTION",
-  "JAVASCRIPT", // Added JAVASCRIPT
-]);
-
 const TargetSchema = z.object({
   type: z.enum(["description"]),
   elementDescriptor: z.string(),
