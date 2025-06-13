@@ -2,7 +2,7 @@ import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
-import { Homepage } from "./ui/Homepage";
+import { App } from "./App";
 
 const queryClient = new QueryClient({
   // defaultOptions: {
@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage />,
+    element: <App />,
   },
 ]);
 

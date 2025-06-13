@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import type { CentralDirectory } from "unzipper";
 import { runGroupRoutes } from "./routes/runGroupRoutes";
 
-export type ApiType = typeof api;
+export type ApiType = ReturnType<typeof api>;
 
 export const api = (directory: CentralDirectory) =>
   new Hono()

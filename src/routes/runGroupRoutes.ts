@@ -7,5 +7,5 @@ export const runGroupRoutes = new Hono().get(
   "/",
   safeRoute((c) => {
     return parseZipPath(c.var.directory, "metadata.json", MomenticTestSchema);
-  }),
+  }, undefined),
 );
