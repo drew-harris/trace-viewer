@@ -11,6 +11,7 @@ const CommandSchema = z.discriminatedUnion("type", [
   z.object({
     id: z.string().uuid(),
     clearContent: z.boolean().optional(),
+    pressEnter: z.boolean().optional(), // Added pressEnter
     type: z.literal("TYPE"),
     target: TargetSchema.optional(),
     value: z.string(),
@@ -29,6 +30,7 @@ const CommandSchema = z.discriminatedUnion("type", [
     id: z.string().uuid(),
     type: z.literal("AI_ASSERTION"),
     assertion: z.string(),
+    contextChoice: z.enum(["VISION_ONLY"]).optional(), // Added contextChoice
   }),
 ]);
 
@@ -44,13 +46,20 @@ export const MomenticTestSchema = z.object({
   testId: z.string().uuid(),
   testName: z.string(),
   trigger: z.literal("CLI"),
-  status: z.enum(["PASSED", "FAILED", "SKIPPED", "RUNNING"]), // Added other possible statuses
+  status: z.enum(["PASSED", "FAILED", "SKIPPED", "RUNNING"]),
   resolvedBaseUrl: z.string().url(),
+  environmentName: z.string().optional(), // Added environmentName
   cliVersion: z.string(),
   schemaVersion: z.string(),
   startedAt: z.string().datetime(),
   attempts: z.number().int().positive(),
   finishedAt: z.string().datetime(),
+  failureDetails: z
+    .object({
+      errorMessage: z.string(),
+    })
+    .optional(), // Added failureDetails
+  failureReason: z.string().optional(), // Added failureReason
   flake: z.boolean(),
 });
 
