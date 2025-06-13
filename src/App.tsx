@@ -55,7 +55,7 @@ export const App = () => {
         <ResizablePanel defaultSize={70}>
           <ResizablePanelGroup className="items-stretch" direction="horizontal">
             <ResizablePanel>
-              <div className="flex p-2 flex-col gap-2">
+              <div className="flex overflow-y-auto h-full p-2 flex-col gap-2">
                 {results.map((r) =>
                   isModule(r) ? (
                     <ModuleListItem
