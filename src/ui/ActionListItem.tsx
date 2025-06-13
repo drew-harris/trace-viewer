@@ -47,6 +47,8 @@ export const CommandTypeIcon = ({ type }: { type: CommandType }) => {
       return <Pointer size={16} />;
     case "AI_ASSERTION":
       return <Brain size={16} />;
+    case "JAVASCRIPT":
+      return <Brain size={16} />;
     default:
       return type satisfies never;
   }

@@ -3,8 +3,8 @@ import { z } from "zod";
 const resultDetailSchema = z.object({
   beforeUrl: z.string(),
   afterUrl: z.string(),
-  beforeSnapshot: z.string(),
-  afterSnapshot: z.string(),
+  beforeSnapshot: z.string().optional(), // Made optional as per error
+  afterSnapshot: z.string().optional(), // Made optional as per error
   startedAt: z.string().datetime(),
   finishedAt: z.string().datetime(),
   viewport: z
@@ -20,7 +20,7 @@ const resultDetailSchema = z.object({
 
 const commandSchema = z.object({
   id: z.string().uuid(),
-  type: z.enum(["TYPE", "PRESS", "CLICK", "AI_ASSERTION"]),
+  type: z.enum(["TYPE", "PRESS", "CLICK", "AI_ASSERTION", "JAVASCRIPT"]), // Added JAVASCRIPT
   clearContent: z.boolean().optional(),
   pressEnter: z.boolean().optional(),
   target: z
@@ -32,17 +32,20 @@ const commandSchema = z.object({
   value: z.string().optional(),
   assertion: z.string().optional(),
   contextChoice: z.string().optional(),
+  code: z.string().optional(), // Added for JAVASCRIPT command type
 });
 
 const presetActionResultSchema = z.object({
   beforeUrl: z.string(),
   afterUrl: z.string(),
   message: z.string().optional(), // Made optional
-  beforeSnapshot: z.string(),
-  afterSnapshot: z.string(),
+  beforeSnapshot: z.string().optional(), // Made optional as per error
+  afterSnapshot: z.string().optional(), // Made optional as per error
   startedAt: z.string().datetime(),
   finishedAt: z.string().datetime(),
   status: z.enum(["SUCCESS", "FAILED"]),
+  data: z.any().optional(), // Added for data field in preset action
+  envKey: z.string().optional(), // Added for envKey in preset action
   beforeTestContext: z.object({
     env: z.record(z.string(), z.string()),
   }),
@@ -52,18 +55,20 @@ const presetActionResultSchema = z.object({
   id: z.string().uuid(),
   type: z.literal("PRESET_ACTION"),
   command: commandSchema,
-  results: z.array(resultDetailSchema),
+  results: z.array(resultDetailSchema).optional(), // Made optional
   failureReason: z.string().optional(), // Added for FAILED status
 });
 
 const moduleResultSchema = z.object({
   beforeUrl: z.string(),
   afterUrl: z.string(),
-  beforeSnapshot: z.string(),
-  afterSnapshot: z.string(),
+  beforeSnapshot: z.string().optional(), // Made optional as per error
+  afterSnapshot: z.string().optional(), // Made optional as per error
   startedAt: z.string().datetime(),
   finishedAt: z.string().datetime(),
   status: z.enum(["SUCCESS", "FAILED"]),
+  message: z.string().optional(), // Added for message field in module results
+  data: z.any().optional(), // Added for data field in module results
   beforeTestContext: z.object({
     env: z.record(z.string(), z.string()),
   }),
@@ -75,7 +80,7 @@ const moduleResultSchema = z.object({
   type: z.literal("MODULE"),
   moduleId: z.string().uuid(),
   moduleName: z.string(),
-  results: z.array(presetActionResultSchema),
+  results: z.array(presetActionResultSchema), // Changed to presetActionResultSchema
 });
 
 export const attemptSchema = z.object({

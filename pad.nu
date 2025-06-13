@@ -9,3 +9,5 @@ bun run src/index.ts ./failing-test.zip
 #@ module
 bun run src/index.ts ./module.zip
 
+#@ long
+bun run src/index.ts ./long-test.zip
