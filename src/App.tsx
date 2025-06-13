@@ -49,7 +49,7 @@ export const App = () => {
       <RunGroupStatusBar runGroup={data} />
       <ResizablePanelGroup className="items-stretch" direction="horizontal">
         <ResizablePanel>
-          <div className="p-2 flex flex-col gap-2">
+          <div className="flex p-2 flex-col gap-2">
             {results.map((r) =>
               isModule(r) ? (
                 <ModuleListItem
