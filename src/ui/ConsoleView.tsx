@@ -3,8 +3,10 @@ import { client } from "../fetch";
 import type { LogEntry } from "@/schemas/logs";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export const ConsoleView = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const { data } = useSuspenseQuery({
     queryKey: ["logs", 1],
     queryFn: () =>
@@ -14,18 +16,31 @@ export const ConsoleView = () => {
         .then((r) => r.flatMap((l) => l)),
   });
 
+  const filteredLogs = data.filter((line) =>
+    line.text.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
-    <div className="max-h-full overflow-scroll">
-      <div>
-        {data.map((line) => (
-          <LogLine key={line.url} line={line} />
-        ))}
+    <div className="flex flex-col h-full">
+      <div className="p-0 border-b border-neutral-700/40">
+        <input
+          type="text"
+          placeholder="Search logs..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 focus:outline-none focus:ring-0 focus:ring-blue-500"
+        />
+      </div>
+      <div className="flex-1 overflow-auto">
+        <div>
+          {filteredLogs.map((line) => (
+            <LogLine key={line.timestamp} line={line} />
+          ))}
+        </div>
       </div>
     </div>
   );
 };
-
-// (property) type: "error" | "warning" | "info" | "log" | "verbose"
 
 export const LogLine = ({ line }: { line: LogEntry }) => {
   const getTypeColor = (type: LogEntry["type"]) => {
