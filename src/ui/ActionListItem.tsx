@@ -1,5 +1,5 @@
+import { cn } from "../lib/utils";
 import type { Action } from "../schemas/attempts";
-import { cn } from "../styling";
 
 export const ActionListItem = ({
   action,

@@ -10,6 +10,12 @@
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
     "allowJs": true,
     // Bundler mode
     "moduleResolution": "bundler",
