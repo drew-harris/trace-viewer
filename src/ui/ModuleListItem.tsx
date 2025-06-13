@@ -21,18 +21,27 @@ export const ModuleListItem = ({
         {module.moduleName}
       </div>
       <div className="flex flex-col">
-        {module.results.map((r) => (
+        {module.results.length === 0 ? (
           <div className="flex items-stretch">
             {verticalLine}
-            <div className="w-full pt-2 py-1">
-              <ActionListItem
-                action={r}
-                select={() => select(r.id)}
-                isSelected={selectedId === r.id}
-              />
+            <div className="w-full pt-2 py-1 text-sm text-neutral-500 italic">
+              No Steps
             </div>
           </div>
-        ))}
+        ) : (
+          module.results.map((r) => (
+            <div className="flex items-stretch">
+              {verticalLine}
+              <div className="w-full pt-2 py-1">
+                <ActionListItem
+                  action={r}
+                  select={() => select(r.id)}
+                  isSelected={selectedId === r.id}
+                />
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
