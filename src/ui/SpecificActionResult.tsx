@@ -17,6 +17,10 @@ export const SpecificActionView = ({ action }: { action: Action }) => {
   );
   return (
     <div className="py-2">
+      <div className="py-2 px-4">
+        <div>{action.failureReason}</div>
+        <div className="opacity-70">{action.message}</div>
+      </div>
       <div className="flex justify-between px-4 gap-2">
         <Select
           onValueChange={(value) =>
@@ -46,8 +50,7 @@ export const SpecificActionView = ({ action }: { action: Action }) => {
           </SelectContent>
         </Select>
       </div>
-      <div>{action.id}</div>
-      <div>{action.beforeSnapshot}</div>
+      <div className="py-2"></div>
       {previewType === "html" ? (
         <SnapshotView action={action} period={previewPeriod} />
       ) : previewType === "rawHtml" ? (

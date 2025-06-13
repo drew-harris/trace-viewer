@@ -1,4 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import { client } from "./fetch";
 import { RunGroupStatusBar } from "./ui/RunGroupStatusBar";
 import { useState } from "react";
@@ -28,26 +33,31 @@ export const App = () => {
   return (
     <div className="h-screen">
       <RunGroupStatusBar runGroup={data} />
-      <div className="grid grid-cols-[1fr_2fr]">
-        <div>
-          {results.map((r) => (
-            <ActionListItem
-              action={r}
-              select={() => setSelectedAction(r.id)}
-              isSelected={selectedAction === r.id}
-            />
-          ))}
-        </div>
-        <div>
-          {selectedAction ? (
-            <SpecificActionView
-              action={results.find((r) => r.id === selectedAction)!}
-            />
-          ) : (
-            <div>Select an action</div>
-          )}
-        </div>
-      </div>
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel>
+          <div>
+            {results.map((r) => (
+              <ActionListItem
+                action={r}
+                select={() => setSelectedAction(r.id)}
+                isSelected={selectedAction === r.id}
+              />
+            ))}
+          </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={60}>
+          <div>
+            {selectedAction ? (
+              <SpecificActionView
+                action={results.find((r) => r.id === selectedAction)!}
+              />
+            ) : (
+              <div>Select an action</div>
+            )}
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };
