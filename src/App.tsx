@@ -7,7 +7,6 @@ import {
 import { client } from "./fetch";
 import { RunGroupStatusBar } from "./ui/RunGroupStatusBar";
 import { useState } from "react";
-import type { Action } from "./schemas/attempts";
 import { SpecificActionView } from "./ui/SpecificActionResult";
 import { ActionListItem } from "./ui/ActionListItem";
 
@@ -33,9 +32,9 @@ export const App = () => {
   return (
     <div className="h-screen">
       <RunGroupStatusBar runGroup={data} />
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup className="items-stretch" direction="horizontal">
         <ResizablePanel>
-          <div>
+          <div className="p-2 flex flex-col gap-2">
             {results.map((r) => (
               <ActionListItem
                 action={r}
@@ -46,8 +45,8 @@ export const App = () => {
           </div>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={60}>
-          <div>
+        <ResizablePanel defaultSize={60} className="h-full">
+          <div className="bg-neutral-700">
             {selectedAction ? (
               <SpecificActionView
                 action={results.find((r) => r.id === selectedAction)!}

@@ -18,7 +18,9 @@ export const SpecificActionView = ({ action }: { action: Action }) => {
   return (
     <div className="py-2">
       <div className="py-2 px-4">
-        <div>{action.failureReason}</div>
+        {action?.failureReason && (
+          <div className="text-red-300">{action.failureReason}</div>
+        )}
         <div className="opacity-70">{action.message}</div>
       </div>
       <div className="flex justify-between px-4 gap-2">
