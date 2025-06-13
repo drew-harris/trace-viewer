@@ -59,12 +59,7 @@ const ResolvedModuleStepSchema = z.object({
   description: z.string(),
   enabled: z.boolean(),
   parameters: z.array(z.any()), // Assuming parameters can be any type for now
-  defaultParameters: z.record(z.string(), z.any()),
-  defaultCacheKey: z.string().nullable(),
-  defaultCacheTtl: z.number().nullable(),
-  defaultCacheAllInvocations: z.boolean().nullable(),
-  autoAuth: z.boolean().nullable(),
-  advanced: z.record(z.string(), z.any()), // Assuming advanced can be any type
+  // advanced: z.record(z.string(), z.any()), // Assuming advanced can be any type
   steps: z.array(PresetActionStepSchema), // Steps within a resolved module are Preset Actions
   schemaVersion: z.string(),
   id: z.string().uuid(),

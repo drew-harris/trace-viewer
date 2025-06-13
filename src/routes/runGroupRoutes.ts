@@ -4,12 +4,27 @@ import { parseZipPath } from "../files";
 import { errAsync } from "neverthrow";
 import { attemptSchema } from "../schemas/attempts";
 import { MomenticTestSchema } from "../schemas/testGroup";
+import { LogSchema } from "@/schemas/logs";
 
 export const runGroupRoutes = new Hono()
   .get(
     "/",
     safeRoute((c) => {
       return parseZipPath(c.var.directory, "metadata.json", MomenticTestSchema);
+    }, undefined),
+  )
+  .get(
+    "/logs/:id",
+    safeRoute((c) => {
+      const attemptId = c.req.param("id");
+      if (!attemptId) {
+        return errAsync(new Error("No Attempt ID Given"));
+      }
+      return parseZipPath(
+        c.var.directory,
+        `attempts/${attemptId}/console.json`,
+        LogSchema,
+      );
     }, undefined),
   )
   .get(

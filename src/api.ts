@@ -50,8 +50,8 @@ export const api = (directory: CentralDirectory) =>
       const step = c.req.param("step");
       const filename = c.req.param("filename");
       console.log(id, step, filename);
-      const file = directory.files.find(
-        (f) => f.path.includes(`/${step}/${filename}`),
+      const file = directory.files.find((f) =>
+        f.path.includes(`/${step}/${filename}`),
       );
       if (!file) {
         c.status(404);
