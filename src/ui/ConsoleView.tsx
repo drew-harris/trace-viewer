@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { client } from "../fetch";
 import type { LogEntry } from "@/schemas/logs";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export const ConsoleView = () => {
   const { data } = useSuspenseQuery({
@@ -12,6 +13,7 @@ export const ConsoleView = () => {
         .then((r) => r.json())
         .then((r) => r.flatMap((l) => l)),
   });
+
   return (
     <div className="max-h-full overflow-scroll">
       <div>
@@ -23,11 +25,34 @@ export const ConsoleView = () => {
   );
 };
 
+// (property) type: "error" | "warning" | "info" | "log" | "verbose"
+
 export const LogLine = ({ line }: { line: LogEntry }) => {
+  const getTypeColor = (type: LogEntry["type"]) => {
+    switch (type) {
+      case "error":
+        return "text-red-400";
+      case "warning":
+        return "text-yellow-400";
+      case "info":
+        return "text-blue-300";
+      case "verbose":
+        return "text-gray-500";
+      default:
+        return "text-white";
+    }
+  };
+
   return (
-    <div className="flex items-center gap-2">
+    <div
+      className={cn(
+        "flex p-2 border-b border-b-neutral-700/40 items-center gap-2",
+      )}
+    >
       <div className="flex flex-col">
-        <div className="text-sm font-mono">{line.text}</div>
+        <div className={cn("text-sm font-mono", getTypeColor(line.type))}>
+          {line.text}
+        </div>
         <div className="text-xs text-neutral-500">
           {format(new Date(line.timestamp), "MMM d, yyyy 'at' h:mm:ss a")}
         </div>
