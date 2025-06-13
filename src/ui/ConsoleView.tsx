@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { client } from "../fetch";
 import type { LogEntry } from "@/schemas/logs";
+import { format } from "date-fns";
 
 export const ConsoleView = () => {
   const { data } = useSuspenseQuery({
@@ -25,11 +26,10 @@ export const ConsoleView = () => {
 export const LogLine = ({ line }: { line: LogEntry }) => {
   return (
     <div className="flex items-center gap-2">
-      {/* <div className="w-8 h-8 bg-red-500 rounded-full"></div> */}
       <div className="flex flex-col">
-        <div className="text-sm">{line.text}</div>
+        <div className="text-sm font-mono">{line.text}</div>
         <div className="text-xs text-neutral-500">
-          {line.timestamp} {line.tabIndex}
+          {format(new Date(line.timestamp), "MMM d, yyyy 'at' h:mm:ss a")}
         </div>
       </div>
     </div>
