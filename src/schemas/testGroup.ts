@@ -34,11 +34,22 @@ const CommandSchema = z.discriminatedUnion("type", [
   }),
 ]);
 
-const StepSnapshotSchema = z.object({
+const ResolvedModuleStepSchema = z.object({
   id: z.string().uuid(),
-  type: z.literal("PRESET_ACTION"),
-  command: CommandSchema,
+  type: z.literal("RESOLVED_MODULE"),
+  // If there are other fields specific to RESOLVED_MODULE, add them here.
+  // Based on the error, 'command' is not present for this type, so we omit it.
 });
+
+// Refactor StepSnapshotSchema to be a discriminated union
+const StepSnapshotSchema = z.discriminatedUnion("type", [
+  z.object({
+    id: z.string().uuid(),
+    type: z.literal("PRESET_ACTION"),
+    command: CommandSchema,
+  }),
+  ResolvedModuleStepSchema, // Add the new schema for "RESOLVED_MODULE"
+]);
 
 export const MomenticTestSchema = z.object({
   stepsSnapshot: z.array(StepSnapshotSchema),

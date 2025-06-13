@@ -37,7 +37,7 @@ const commandSchema = z.object({
 const presetActionResultSchema = z.object({
   beforeUrl: z.string(),
   afterUrl: z.string(),
-  message: z.string(),
+  message: z.string().optional(), // Made optional
   beforeSnapshot: z.string(),
   afterSnapshot: z.string(),
   startedAt: z.string().datetime(),
@@ -56,14 +56,45 @@ const presetActionResultSchema = z.object({
   failureReason: z.string().optional(), // Added for FAILED status
 });
 
+const moduleResultSchema = z.object({
+  beforeUrl: z.string(),
+  afterUrl: z.string(),
+  beforeSnapshot: z.string(),
+  afterSnapshot: z.string(),
+  startedAt: z.string().datetime(),
+  finishedAt: z.string().datetime(),
+  status: z.enum(["SUCCESS", "FAILED"]),
+  beforeTestContext: z.object({
+    env: z.record(z.string(), z.string()),
+  }),
+  afterTestContext: z.object({
+    env: z.record(z.string(), z.string()),
+  }),
+  id: z.string().uuid(),
+  inputs: z.record(z.string(), z.string()).optional(),
+  type: z.literal("MODULE"),
+  moduleId: z.string().uuid(),
+  moduleName: z.string(),
+  results: z.array(presetActionResultSchema),
+});
+
 export const attemptSchema = z.object({
   schemaVersion: z.string(),
   startedAt: z.string().datetime(),
   status: z.enum(["PASSED", "FAILED"]),
   finishedAt: z.string().datetime(),
-  results: z.array(presetActionResultSchema),
+  results: z.array(z.union([presetActionResultSchema, moduleResultSchema])),
 });
 
 export type Attempt = z.infer<typeof attemptSchema>;
+export type Result = Attempt["results"][0];
+
+export type Module = z.infer<typeof moduleResultSchema>;
 
 export type Action = z.infer<typeof presetActionResultSchema>;
+
+export const isModule = (result: Result): result is Module =>
+  result.type === "MODULE";
+
+export const isPresetAction = (result: Result): result is Action =>
+  result.type === "PRESET_ACTION";
