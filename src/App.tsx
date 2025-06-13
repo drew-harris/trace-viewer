@@ -75,7 +75,7 @@ export const App = () => {
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel defaultSize={60} className="h-full">
-              <div className="bg-neutral-700">
+              <div className="bg-neutral-800 overflow-y-auto border-l border-l-neutral-700 h-full">
                 {selectedAction ? (
                   <SpecificActionView
                     action={
